@@ -17,6 +17,8 @@ export class PostgresStorage implements StorageAdapter {
   constructor(url: string) {
     this.sql = postgres(url, {max: 5});
     this.ready = this.bootstrap();
+    // Surface bootstrap failures on first use, not as an unhandled rejection.
+    this.ready.catch(() => {});
   }
 
   private async bootstrap(): Promise<void> {

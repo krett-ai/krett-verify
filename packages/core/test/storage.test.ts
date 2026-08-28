@@ -40,8 +40,8 @@ const record: FailureRecord = {
 
 function contract(name: string, make: () => StorageAdapter, enabled = true) {
   describe.skipIf(!enabled)(name, () => {
-    const store = make();
-    afterAll(() => store.close());
+    const store = enabled ? make() : (null as unknown as StorageAdapter);
+    afterAll(() => store?.close());
 
     it("round-trips claim, verdicts, and failure records", async () => {
       await store.saveClaim(claim);
