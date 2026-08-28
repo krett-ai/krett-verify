@@ -5,6 +5,7 @@
  * world through a path the agent did not control, and never reaches `verified`
  * from agent-produced evidence.
  */
+import {FilesystemChecker} from "./filesystem.js";
 import {
   ChallengeProbeChecker,
   HttpEffectChecker,
@@ -12,5 +13,5 @@ import {
   StateSnapshotChecker,
 } from "./generic.js";
 
-export {ChallengeProbeChecker, HttpEffectChecker, InvariantChecker, StateSnapshotChecker};
+export {ChallengeProbeChecker, FilesystemChecker, HttpEffectChecker, InvariantChecker, StateSnapshotChecker};
 export type {Invariant} from "./generic.js";
