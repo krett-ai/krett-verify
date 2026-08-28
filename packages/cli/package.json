@@ -20,5 +20,8 @@
   },
   "dependencies": {
     "@krett/core": "workspace:*"
+  },
+  "bin": {
+    "krett": "dist/index.js"
   }
 }
