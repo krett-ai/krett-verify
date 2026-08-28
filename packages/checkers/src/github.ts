@@ -20,6 +20,7 @@
  * `unverifiable` — the only safe direction when the world can't be read.
  */
 import type {Checker, CheckerContext, Claim, Verdict} from "@krett/core";
+import {compareExpect} from "./match.js";
 
 type FetchLike = (url: string, init?: {headers?: Record<string, string>}) => Promise<{
   status: number;
@@ -45,15 +46,6 @@ function apiPath(kind: string, repo: string, ref: string | undefined): string | 
     default:
       return null;
   }
-}
-
-function dig(resource: unknown, path: string): unknown {
-  let current: unknown = resource;
-  for (const key of path.split(".")) {
-    if (current === null || typeof current !== "object") return undefined;
-    current = (current as Record<string, unknown>)[key];
-  }
-  return current;
 }
 
 export class GithubChecker implements Checker {
@@ -121,15 +113,10 @@ export class GithubChecker implements Checker {
         "expected the resource to be absent, but it exists");
     }
 
-    for (const [path_, want] of Object.entries(expect)) {
-      if (path_ === "$exists") continue;
-      const observed = dig(resource, path_);
-      if (String(observed) !== String(want)) {
-        return this.verdict(claim, started, "failed", {status, [path_]: observed},
-          `expected ${path_}=${JSON.stringify(want)}, observed ${JSON.stringify(observed)}`);
-      }
-    }
-    return this.verdict(claim, started, "verified", {status});
+    const problem = compareExpect(resource, expect);
+    return problem
+      ? this.verdict(claim, started, "failed", {status}, problem)
+      : this.verdict(claim, started, "verified", {status});
   }
 
   private verdict(
