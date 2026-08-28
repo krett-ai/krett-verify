@@ -10,16 +10,17 @@ import {join} from "node:path";
 import type {Claim, FailureRecord, StorageAdapter, Verdict} from "../src/index.js";
 import {MemoryStorage, SqliteStorage, PostgresStorage} from "../src/index.js";
 
+const runTag = `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
 const claim: Claim = {
-  id: "c-1",
-  agentId: "agent-9",
+  id: `c-${runTag}`,
+  agentId: `agent-${runTag}`,
   runId: "run-1",
   timestamp: 1000,
   action: {verb: "update", system: "crm", entity: "contact:1", expect: {stage: "won"}},
   consequence: "high",
 };
 const verdict: Verdict = {
-  claimId: "c-1",
+  claimId: `c-${runTag}`,
   status: "failed",
   checkerId: "crm",
   evidence: {stage: "lost"},
@@ -28,11 +29,11 @@ const verdict: Verdict = {
   timestamp: 1001,
 };
 const record: FailureRecord = {
-  id: "f-1",
+  id: `f-${runTag}`,
   claim,
   verdict,
   context: {note: "test"},
-  recoveryActions: [{type: "escalate", claimId: "c-1", outcome: "recovered", timestamp: 1002}],
+  recoveryActions: [{type: "escalate", claimId: `c-${runTag}`, outcome: "recovered", timestamp: 1002}],
   resolution: "escalated",
   createdAt: 1002,
 };
@@ -46,9 +47,9 @@ function contract(name: string, make: () => StorageAdapter, enabled = true) {
       await store.saveClaim(claim);
       await store.saveVerdict(verdict);
       await store.appendFailureRecord(record);
-      expect(await store.getClaim("c-1")).toEqual(claim);
-      expect(await store.getVerdicts("c-1")).toEqual([verdict]);
-      const failures = await store.getFailureRecords({agentId: "agent-9"});
+      expect(await store.getClaim(`c-${runTag}`)).toEqual(claim);
+      expect(await store.getVerdicts(`c-${runTag}`)).toEqual([verdict]);
+      const failures = await store.getFailureRecords({agentId: `agent-${runTag}`});
       expect(failures).toEqual([record]);
       expect(await store.getFailureRecords({agentId: "someone-else"})).toEqual([]);
       expect(await store.getFailureRecords({since: 5000})).toEqual([]);
