@@ -29,6 +29,10 @@ importers:
       postgres:
         specifier: ^3.4.9
         version: 3.4.9
+    devDependencies:
+      '@types/better-sqlite3':
+        specifier: ^9.6.0
+        version: 9.6.0
 
   packages/cli:
     dependencies:
