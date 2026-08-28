@@ -8,11 +8,13 @@
  */
 import {defaultPolicy} from "./types.js";
 import {MemoryStorage} from "./storage.js";
+import {SqliteStorage} from "./sqlite.js";
+import {PostgresStorage} from "./postgres.js";
 import {KrettEngine} from "./engine.js";
 
 export const KRETT_VERSION = "0.0.1";
 
-export {defaultPolicy, MemoryStorage, KrettEngine};
+export {defaultPolicy, MemoryStorage, SqliteStorage, PostgresStorage, KrettEngine};
 
 export type {
   Checker,

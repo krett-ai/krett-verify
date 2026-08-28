@@ -6,10 +6,23 @@
   "type": "module",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "build": "tsc -p tsconfig.json",
     "typecheck": "tsc -p tsconfig.json --noEmit"
   },
-  "repository": { "type": "git", "url": "https://github.com/krett-ai/krett-verify", "directory": "packages/core" }
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/krett-ai/krett-verify",
+    "directory": "packages/core"
+  },
+  "dependencies": {
+    "better-sqlite3": "^13.0.3",
+    "postgres": "^3.4.9"
+  },
+  "devDependencies": {
+    "@types/better-sqlite3": "^9.6.0"
+  }
 }
