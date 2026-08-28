@@ -72,7 +72,7 @@ krett watch db      # stream new failures as they land
 
 ## Status
 
-Building in public. Phase plan in [KRETT.md](./KRETT.md); build spec in [PROMPT.md](./PROMPT.md); inviolable constraints in [AGENTS.md](./AGENTS.md).
+Building in public.
 
 - [x] Phase 1: `@krett/core` — claim/verdict engine
 - [x] Phase 2: `@krett/checkers` — the checker library
