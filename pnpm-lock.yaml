@@ -23,6 +23,12 @@ importers:
       '@krett/core':
         specifier: workspace:*
         version: link:../core
+      better-sqlite3:
+        specifier: ^13.0.3
+        version: 13.0.3
+      postgres:
+        specifier: ^3.4.9
+        version: 3.4.9
 
   packages/cli:
     dependencies:

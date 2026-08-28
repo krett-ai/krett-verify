@@ -6,6 +6,7 @@
  * from agent-produced evidence.
  */
 import {FilesystemChecker} from "./filesystem.js";
+import {PostgresRowChecker, SqliteRowChecker} from "./db.js";
 import {
   ChallengeProbeChecker,
   HttpEffectChecker,
@@ -13,5 +14,5 @@ import {
   StateSnapshotChecker,
 } from "./generic.js";
 
-export {ChallengeProbeChecker, FilesystemChecker, HttpEffectChecker, InvariantChecker, StateSnapshotChecker};
+export {ChallengeProbeChecker, FilesystemChecker, HttpEffectChecker, InvariantChecker, PostgresRowChecker, SqliteRowChecker, StateSnapshotChecker};
 export type {Invariant} from "./generic.js";
