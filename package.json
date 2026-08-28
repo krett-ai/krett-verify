@@ -1,0 +1,19 @@
+{
+  "name": "krett-monorepo",
+  "private": true,
+  "engines": {
+    "node": ">=20"
+  },
+  "packageManager": "pnpm@9.0.0",
+  "scripts": {
+    "build": "pnpm -r --filter './packages/*' build",
+    "typecheck": "pnpm -r --filter './packages/*' build",
+    "test": "vitest run",
+    "lint": "pnpm -r --filter './packages/*' build"
+  },
+  "devDependencies": {
+    "typescript": "^5.5.0",
+    "vitest": "^2.0.0",
+    "@types/node": "^20.14.0"
+  }
+}
