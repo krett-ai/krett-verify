@@ -14,7 +14,7 @@
  * option; any function that resolves a ref to a message record (IMAP search,
  * SendGrid, a test inbox) fits the same seam.
  */
-import type {Checker, CheckerContext, Claim, Verdict} from "@krett/core";
+import type {Checker, CheckerContext, Claim, Verdict} from "@krett-ai/core";
 import {compareExpect} from "./match.js";
 
 export type EmailLookup = (ref: string) => Promise<Record<string, unknown> | null>;

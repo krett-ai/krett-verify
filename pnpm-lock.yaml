@@ -20,7 +20,7 @@ importers:
 
   packages/checkers:
     dependencies:
-      '@krett/core':
+      '@krett-ai/core':
         specifier: workspace:*
         version: link:../core
       better-sqlite3:
@@ -36,7 +36,7 @@ importers:
 
   packages/cli:
     dependencies:
-      '@krett/core':
+      '@krett-ai/core':
         specifier: workspace:*
         version: link:../core
 
@@ -55,13 +55,13 @@ importers:
 
   packages/recover:
     dependencies:
-      '@krett/core':
+      '@krett-ai/core':
         specifier: workspace:*
         version: link:../core
 
   packages/sdk:
     dependencies:
-      '@krett/core':
+      '@krett-ai/core':
         specifier: workspace:*
         version: link:../core
 

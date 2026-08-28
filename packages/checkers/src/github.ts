@@ -19,7 +19,7 @@
  * A 404 is evidence of absence; auth failures and network errors are
  * `unverifiable` — the only safe direction when the world can't be read.
  */
-import type {Checker, CheckerContext, Claim, Verdict} from "@krett/core";
+import type {Checker, CheckerContext, Claim, Verdict} from "@krett-ai/core";
 import {compareExpect} from "./match.js";
 
 type FetchLike = (url: string, init?: {headers?: Record<string, string>}) => Promise<{

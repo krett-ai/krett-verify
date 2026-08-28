@@ -4,7 +4,7 @@ import {mkdtempSync} from "node:fs";
 import {tmpdir} from "node:os";
 import {join} from "node:path";
 import Database from "better-sqlite3";
-import type {Claim} from "@krett/core";
+import type {Claim} from "@krett-ai/core";
 import {PostgresRowChecker, SqliteRowChecker} from "../src/index.js";
 
 function claim(system: string, entity: string, expect_: Record<string, unknown>): Claim {

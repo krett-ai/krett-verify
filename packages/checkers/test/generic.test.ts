@@ -4,7 +4,7 @@
  * and unreachable system (unverifiable, never verified).
  */
 import {describe, expect, it} from "vitest";
-import type {Claim} from "@krett/core";
+import type {Claim} from "@krett-ai/core";
 import {
   ChallengeProbeChecker,
   HttpEffectChecker,

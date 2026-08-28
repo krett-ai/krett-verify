@@ -3,8 +3,8 @@
  * catches it, the ladder runs, and the FailureRecord tells the whole story.
  */
 import {describe, expect, it} from "vitest";
-import type {Checker, Claim} from "@krett/core";
-import {KrettEngine} from "@krett/core";
+import type {Checker, Claim} from "@krett-ai/core";
+import {KrettEngine} from "@krett-ai/core";
 import {LadderRecovery} from "../src/index.js";
 
 function claim(id: string): Claim {

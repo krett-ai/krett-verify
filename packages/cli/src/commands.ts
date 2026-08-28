@@ -5,16 +5,16 @@
  */
 import {existsSync} from "node:fs";
 import {writeFile} from "node:fs/promises";
-import {SqliteStorage} from "@krett/core";
-import type {FailureRecord} from "@krett/core";
+import {SqliteStorage} from "@krett-ai/core";
+import type {FailureRecord} from "@krett-ai/core";
 
 export type Print = (line: string) => void;
 
 const QUICKSTART = `// Krett quickstart: catch an agent lying about a file write.
 // Run: node krett-quickstart.mjs
 import {writeFile} from "node:fs/promises";
-import {krett} from "@krett/sdk";
-import {FilesystemChecker} from "@krett/checkers";
+import {krett} from "@krett-ai/sdk";
+import {FilesystemChecker} from "@krett-ai/checkers";
 
 const k = krett({checkers: [new FilesystemChecker()]});
 
@@ -44,7 +44,7 @@ export async function init(print: Print, path = "krett-quickstart.mjs"): Promise
   }
   await writeFile(path, QUICKSTART);
   print(`wrote ${path}`);
-  print("next: pnpm add @krett/sdk @krett/checkers && node " + path);
+  print("next: pnpm add @krett-ai/sdk @krett-ai/checkers && node " + path);
   return 0;
 }
 

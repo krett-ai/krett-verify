@@ -3,7 +3,7 @@
  * call. Mandatory trio plus the Resend provider seam.
  */
 import {describe, expect, it} from "vitest";
-import type {Claim} from "@krett/core";
+import type {Claim} from "@krett-ai/core";
 import {EmailChecker, resendProvider} from "../src/index.js";
 
 function claim(entity: string, expect_: Record<string, unknown>): Claim {

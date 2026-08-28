@@ -1,5 +1,5 @@
 /**
- * @krett/core — the claim/verdict engine.
+ * @krett-ai/core — the claim/verdict engine.
  *
  * Krett verifies what your agents actually did. Every consequential agent
  * action produces a Claim; every Claim gets a Verdict from an independent
@@ -12,7 +12,7 @@ import {SqliteStorage} from "./sqlite.js";
 import {PostgresStorage} from "./postgres.js";
 import {KrettEngine} from "./engine.js";
 
-export const KRETT_VERSION = "0.0.1";
+export const KRETT_VERSION = "0.1.0";
 
 export {defaultPolicy, MemoryStorage, SqliteStorage, PostgresStorage, KrettEngine};
 

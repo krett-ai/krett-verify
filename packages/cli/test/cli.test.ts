@@ -6,8 +6,8 @@ import {mkdtemp, readFile} from "node:fs/promises";
 import {tmpdir} from "node:os";
 import {join} from "node:path";
 import {describe, expect, it} from "vitest";
-import {SqliteStorage} from "@krett/core";
-import type {FailureRecord} from "@krett/core";
+import {SqliteStorage} from "@krett-ai/core";
+import type {FailureRecord} from "@krett-ai/core";
 import {init, report, watch} from "../src/commands.js";
 
 function record(id: string, agentId: string, createdAt: number): FailureRecord {

@@ -1,5 +1,5 @@
 /**
- * @krett/recover — the recovery ladder behind the engine's dispatcher seam.
+ * @krett-ai/recover — the recovery ladder behind the engine's dispatcher seam.
  *
  * Recovery law: nothing here trusts its own success. A retry counts as
  * recovered only when an INDEPENDENT re-check verifies the world; a rollback
@@ -18,7 +18,7 @@ import type {
   RecoveryDispatcher,
   RecoveryType,
   Verdict,
-} from "@krett/core";
+} from "@krett-ai/core";
 
 /** Redo or undo an action, then prove it through an independent check. */
 export interface VerifiedHandler {

@@ -2,7 +2,8 @@
  * Filesystem checker: verifies file create/modify/delete claims by reading the
  * filesystem itself — never the agent's report of it.
  *
- * Claim conventions (system: "filesystem", entity: absolute path):
+ * Claim conventions (system: "filesystem", entity: file path; relative paths
+ * resolve against the checker process's working directory):
  *   expect.exists: boolean        — file presence after the action
  *   expect.sha256: string         — content hash (hex)
  *   expect.contains: string       — substring the content must include
@@ -11,7 +12,8 @@
  */
 import {createHash} from "node:crypto";
 import {readFile, stat} from "node:fs/promises";
-import type {Checker, CheckerContext, Claim, Verdict} from "@krett/core";
+import {resolve} from "node:path";
+import type {Checker, CheckerContext, Claim, Verdict} from "@krett-ai/core";
 
 interface Observation {
   exists: boolean;
@@ -29,12 +31,12 @@ export class FilesystemChecker implements Checker {
   }
 
   supports(claim: Claim): boolean {
-    return claim.action.system === "filesystem" && claim.action.entity.startsWith("/");
+    return claim.action.system === "filesystem" && claim.action.entity.length > 0;
   }
 
   async check(claim: Claim, _ctx: CheckerContext): Promise<Verdict> {
     const started = Date.now();
-    const path = claim.action.entity;
+    const path = resolve(claim.action.entity);
     const expect = claim.action.expect as {
       exists?: boolean;
       sha256?: string;

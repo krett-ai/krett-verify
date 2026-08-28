@@ -10,7 +10,7 @@
  * Identifier names (table, key column, expected columns) are validated against
  * a strict pattern before ever entering SQL.
  */
-import type {Checker, CheckerContext, Claim, Verdict} from "@krett/core";
+import type {Checker, CheckerContext, Claim, Verdict} from "@krett-ai/core";
 
 const IDENT = /^[A-Za-z_][A-Za-z0-9_]*$/;
 

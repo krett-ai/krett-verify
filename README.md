@@ -16,8 +16,8 @@ A checker never trusts the agent's own report. If independent confirmation is im
 ## Quickstart
 
 ```js
-import {krett} from "@krett/sdk";
-import {FilesystemChecker} from "@krett/checkers";
+import {krett} from "@krett-ai/sdk";
+import {FilesystemChecker} from "@krett-ai/checkers";
 
 const k = krett({checkers: [new FilesystemChecker()]});
 
@@ -39,7 +39,7 @@ console.log(verdict.status); // "verified" | "failed" | "unverifiable"
 Or wrap what you already run — every mapped tool call gets independently verified after it returns:
 
 ```js
-import {krett, wrapMcpClient} from "@krett/sdk";
+import {krett, wrapMcpClient} from "@krett-ai/sdk";
 
 const verified = wrapMcpClient(k, mcpClient, {
   agentId: "ops-agent",
@@ -64,20 +64,20 @@ krett watch db      # stream new failures as they land
 
 | Package | What it is |
 |---|---|
-| `@krett/core` | Claim/verdict engine, policies, memory/sqlite/postgres storage |
-| `@krett/checkers` | Filesystem, sqlite/postgres rows, ledger (exact bigint money math), GitHub, email, browser, plus generic state/probe/invariant/HTTP checkers |
-| `@krett/recover` | The recovery ladder: retry re-verified, rollback verified, escalate, exact per-agent quarantine |
-| `@krett/sdk` | `krett()`, `verify()`, `wrapMcpClient`, `wrapPlaywright` |
-| `@krett/cli` | `krett init` / `report` / `watch` |
+| `@krett-ai/core` | Claim/verdict engine, policies, memory/sqlite/postgres storage |
+| `@krett-ai/checkers` | Filesystem, sqlite/postgres rows, ledger (exact bigint money math), GitHub, email, browser, plus generic state/probe/invariant/HTTP checkers |
+| `@krett-ai/recover` | The recovery ladder: retry re-verified, rollback verified, escalate, exact per-agent quarantine |
+| `@krett-ai/sdk` | `krett()`, `verify()`, `wrapMcpClient`, `wrapPlaywright` |
+| `@krett-ai/cli` | `krett init` / `report` / `watch` |
 
 ## Status
 
 Building in public.
 
-- [x] Phase 1: `@krett/core` — claim/verdict engine
-- [x] Phase 2: `@krett/checkers` — the checker library
-- [x] Phase 3: `@krett/recover` — recovery strategies
-- [x] Phase 4: `@krett/sdk` + `@krett/cli` (npm publish pending)
+- [x] Phase 1: `@krett-ai/core` — claim/verdict engine
+- [x] Phase 2: `@krett-ai/checkers` — the checker library
+- [x] Phase 3: `@krett-ai/recover` — recovery strategies
+- [x] Phase 4: `@krett-ai/sdk` + `@krett-ai/cli` (npm publish pending)
 - [ ] Phase 5: [SilentBench](https://github.com/krett-ai/silentbench) — measuring the silent-failure rate of agent stacks
 
 ## License

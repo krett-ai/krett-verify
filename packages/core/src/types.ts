@@ -125,7 +125,7 @@ export const defaultPolicy: Policy = {
 };
 
 /**
- * Recovery execution lives in @krett/recover (Phase 3). The engine dispatches
+ * Recovery execution lives in @krett-ai/recover (Phase 3). The engine dispatches
  * through this seam so core stays dependency-free and recovery stays testable.
  */
 export interface RecoveryDispatcher {

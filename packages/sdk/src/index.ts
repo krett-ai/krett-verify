@@ -1,5 +1,5 @@
 /**
- * @krett/sdk — the five-minute path to verified agents.
+ * @krett-ai/sdk — the five-minute path to verified agents.
  *
  *   const k = krett({checkers: [new FilesystemChecker()]});
  *   const verdict = await k.verify({agentId, action, consequence: "high"});
@@ -8,7 +8,7 @@
  * comes from an independent checker reading the world itself.
  */
 import {randomUUID} from "node:crypto";
-import {KrettEngine} from "@krett/core";
+import {KrettEngine} from "@krett-ai/core";
 import type {
   Claim,
   ClaimAction,
@@ -16,7 +16,7 @@ import type {
   EngineOptions,
   FailureRecord,
   Verdict,
-} from "@krett/core";
+} from "@krett-ai/core";
 
 export interface ClaimInput {
   agentId: string;
@@ -69,5 +69,5 @@ export function krett(options: EngineOptions): Krett {
 
 export {wrapMcpClient, wrapPlaywright} from "./wrappers.js";
 export type {ClaimSpec, McpClientLike, McpToolCall, WrapOptions} from "./wrappers.js";
-export {KRETT_VERSION, defaultPolicy} from "@krett/core";
-export type {ClaimAction, ConsequenceLevel, Verdict, FailureRecord} from "@krett/core";
+export {KRETT_VERSION, defaultPolicy} from "@krett-ai/core";
+export type {ClaimAction, ConsequenceLevel, Verdict, FailureRecord} from "@krett-ai/core";

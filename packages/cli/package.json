@@ -1,6 +1,6 @@
 {
-  "name": "@krett/cli",
-  "version": "0.0.1",
+  "name": "@krett-ai/cli",
+  "version": "0.1.0",
   "description": "Krett verifies what your agents actually did.",
   "license": "Apache-2.0",
   "type": "module",
@@ -19,9 +19,23 @@
     "directory": "packages/cli"
   },
   "dependencies": {
-    "@krett/core": "workspace:*"
+    "@krett-ai/core": "workspace:*"
   },
   "bin": {
     "krett": "dist/index.js"
-  }
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "engines": {
+    "node": ">=22"
+  },
+  "homepage": "https://github.com/krett-ai/krett-verify",
+  "keywords": [
+    "ai-agents",
+    "verification",
+    "krett",
+    "silent-failures",
+    "agent-reliability"
+  ]
 }

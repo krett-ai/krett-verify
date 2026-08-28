@@ -1,6 +1,6 @@
 {
-  "name": "@krett/checkers",
-  "version": "0.0.1",
+  "name": "@krett-ai/checkers",
+  "version": "0.1.1",
   "description": "Krett verifies what your agents actually did.",
   "license": "Apache-2.0",
   "type": "module",
@@ -19,11 +19,25 @@
     "directory": "packages/checkers"
   },
   "dependencies": {
-    "@krett/core": "workspace:*",
+    "@krett-ai/core": "workspace:*",
     "better-sqlite3": "^13.0.3",
     "postgres": "^3.4.9"
   },
   "devDependencies": {
     "@types/better-sqlite3": "^9.6.0"
-  }
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "engines": {
+    "node": ">=22"
+  },
+  "homepage": "https://github.com/krett-ai/krett-verify",
+  "keywords": [
+    "ai-agents",
+    "verification",
+    "krett",
+    "silent-failures",
+    "agent-reliability"
+  ]
 }

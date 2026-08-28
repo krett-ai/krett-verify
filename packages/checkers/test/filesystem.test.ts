@@ -4,7 +4,7 @@ import {mkdtempSync, writeFileSync, chmodSync, mkdirSync} from "node:fs";
 import {createHash} from "node:crypto";
 import {tmpdir} from "node:os";
 import {join} from "node:path";
-import type {Claim} from "@krett/core";
+import type {Claim} from "@krett-ai/core";
 import {FilesystemChecker} from "../src/index.js";
 
 const dir = mkdtempSync(join(tmpdir(), "krett-fs-"));
@@ -61,5 +61,34 @@ describe("FilesystemChecker", () => {
     } finally {
       chmodSync(locked, 0o755);
     }
+  });
+});
+
+describe("FilesystemChecker relative paths", () => {
+  it("supports and verifies a relative path against the working directory", async () => {
+    const {mkdtemp, writeFile} = await import("node:fs/promises");
+    const {tmpdir} = await import("node:os");
+    const {join, relative} = await import("node:path");
+    const dir = await mkdtemp(join(tmpdir(), "krett-rel-"));
+    const abs = join(dir, "note.txt");
+    await writeFile(abs, "hello from a relative claim");
+    const rel = relative(process.cwd(), abs);
+    const checker = new FilesystemChecker();
+    const claim = {
+      id: "c-rel",
+      agentId: "a1",
+      runId: "r1",
+      timestamp: Date.now(),
+      action: {
+        verb: "write",
+        system: "filesystem",
+        entity: rel,
+        expect: {exists: true, contains: "relative claim"},
+      },
+      consequence: "high",
+    } as const;
+    expect(checker.supports(claim)).toBe(true);
+    const verdict = await checker.check(claim, {});
+    expect(verdict.status).toBe("verified");
   });
 });

@@ -1,5 +1,5 @@
 /**
- * @krett/checkers — independent outcome verification.
+ * @krett-ai/checkers — independent outcome verification.
  *
  * Krett verifies what your agents actually did. Every checker here reads the
  * world through a path the agent did not control, and never reaches `verified`

@@ -3,7 +3,7 @@
  * screenshot the agent hands over. Mandatory trio plus regex and absence.
  */
 import {describe, expect, it} from "vitest";
-import type {Claim} from "@krett/core";
+import type {Claim} from "@krett-ai/core";
 import {BrowserChecker} from "../src/index.js";
 
 function claim(url: string, expect_: Record<string, unknown>): Claim {

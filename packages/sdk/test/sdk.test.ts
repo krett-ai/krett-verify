@@ -3,7 +3,7 @@
  * world the checker reads independently of the "agent".
  */
 import {describe, expect, it} from "vitest";
-import type {Checker} from "@krett/core";
+import type {Checker} from "@krett-ai/core";
 import {krett, wrapMcpClient, wrapPlaywright} from "../src/index.js";
 import type {McpToolCall, PageCall} from "../src/wrappers.js";
 

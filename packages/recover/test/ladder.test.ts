@@ -4,7 +4,7 @@
  * counts, and the quarantine boundary is exact.
  */
 import {describe, expect, it} from "vitest";
-import type {Claim, Verdict} from "@krett/core";
+import type {Claim, Verdict} from "@krett-ai/core";
 import {LadderRecovery} from "../src/index.js";
 
 function claim(agentId = "a1"): Claim {

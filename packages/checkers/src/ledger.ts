@@ -18,7 +18,7 @@
  * Use snapshot(accounts) before the action to enable delta verification; a
  * delta claim without a snapshot is `unverifiable`, never guessed.
  */
-import type {Checker, CheckerContext, Claim, Verdict} from "@krett/core";
+import type {Checker, CheckerContext, Claim, Verdict} from "@krett-ai/core";
 
 const SCALE = 6; // micro-units: enough for money, exact for comparisons
 

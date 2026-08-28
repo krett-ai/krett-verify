@@ -4,7 +4,7 @@
  * unreachable-target-is-unverifiable.
  */
 import {describe, expect, it} from "vitest";
-import type {Claim} from "@krett/core";
+import type {Claim} from "@krett-ai/core";
 import {LedgerChecker, fromUnits, toUnits} from "../src/index.js";
 
 function claim(expect_: Record<string, unknown>): Claim {

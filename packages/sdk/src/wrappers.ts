@@ -7,7 +7,7 @@
  * with no claim mapping pass through unverified BY THE CALLER'S CHOICE;
  * everything mapped is verified independently.
  */
-import type {ClaimAction, ConsequenceLevel, Verdict} from "@krett/core";
+import type {ClaimAction, ConsequenceLevel, Verdict} from "@krett-ai/core";
 import type {Krett} from "./index.js";
 
 export interface ClaimSpec {

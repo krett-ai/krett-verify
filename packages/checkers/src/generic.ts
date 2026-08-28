@@ -6,7 +6,7 @@
  * These checkers never look at claim.evidenceFromAgent. When the independent
  * path cannot answer, the verdict is `unverifiable`, never `verified`.
  */
-import type {Checker, CheckerContext, Claim, Verdict} from "@krett/core";
+import type {Checker, CheckerContext, Claim, Verdict} from "@krett-ai/core";
 
 function verdict(
   claim: Claim,
