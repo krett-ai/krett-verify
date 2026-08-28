@@ -7,6 +7,7 @@
  */
 import {FilesystemChecker} from "./filesystem.js";
 import {PostgresRowChecker, SqliteRowChecker} from "./db.js";
+import {LedgerChecker, fromUnits, toUnits} from "./ledger.js";
 import {
   ChallengeProbeChecker,
   HttpEffectChecker,
@@ -14,5 +15,5 @@ import {
   StateSnapshotChecker,
 } from "./generic.js";
 
-export {ChallengeProbeChecker, FilesystemChecker, HttpEffectChecker, InvariantChecker, PostgresRowChecker, SqliteRowChecker, StateSnapshotChecker};
+export {ChallengeProbeChecker, FilesystemChecker, HttpEffectChecker, InvariantChecker, LedgerChecker, PostgresRowChecker, SqliteRowChecker, StateSnapshotChecker, fromUnits, toUnits};
 export type {Invariant} from "./generic.js";

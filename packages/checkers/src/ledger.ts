@@ -26,7 +26,9 @@ export function toUnits(value: string | number): bigint {
   const s = String(value).trim();
   const match = /^([+-]?)(\d+)(?:\.(\d+))?$/.exec(s);
   if (!match) throw new Error(`not a decimal amount: "${s}"`);
-  const [, sign, whole, frac = ""] = match;
+  const sign = match[1] ?? "";
+  const whole = match[2] ?? "0";
+  const frac = match[3] ?? "";
   if (frac.length > SCALE) throw new Error(`more than ${SCALE} decimal places: "${s}"`);
   const units = BigInt(whole) * 10n ** BigInt(SCALE) + BigInt(frac.padEnd(SCALE, "0") || "0");
   return sign === "-" ? -units : units;
