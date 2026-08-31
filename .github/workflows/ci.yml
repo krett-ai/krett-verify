@@ -29,3 +29,7 @@ jobs:
       - run: pnpm install --frozen-lockfile
       - run: pnpm typecheck
       - run: pnpm test
+      - name: examples catch injected failures live
+        run: |
+          node examples/mcp-agent/index.mjs
+          node examples/browser-agent/index.mjs

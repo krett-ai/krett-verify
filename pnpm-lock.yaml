@@ -18,6 +18,27 @@ importers:
         specifier: ^2.0.0
         version: 2.1.9(@types/node@20.19.43)
 
+  examples/browser-agent:
+    dependencies:
+      '@krett-ai/checkers':
+        specifier: workspace:*
+        version: link:../../packages/checkers
+      '@krett-ai/sdk':
+        specifier: workspace:*
+        version: link:../../packages/sdk
+      better-sqlite3:
+        specifier: ^13.0.3
+        version: 13.0.3
+
+  examples/mcp-agent:
+    dependencies:
+      '@krett-ai/checkers':
+        specifier: workspace:*
+        version: link:../../packages/checkers
+      '@krett-ai/sdk':
+        specifier: workspace:*
+        version: link:../../packages/sdk
+
   packages/checkers:
     dependencies:
       '@krett-ai/core':

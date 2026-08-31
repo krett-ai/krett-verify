@@ -1,0 +1,14 @@
+{
+  "name": "@krett-examples/browser-agent",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "start": "node index.mjs"
+  },
+  "dependencies": {
+    "@krett-ai/checkers": "workspace:*",
+    "@krett-ai/sdk": "workspace:*",
+    "better-sqlite3": "^13.0.3"
+  }
+}
