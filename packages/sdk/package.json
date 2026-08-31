@@ -1,6 +1,6 @@
 {
   "name": "@krett-ai/sdk",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Krett verifies what your agents actually did.",
   "license": "Apache-2.0",
   "type": "module",

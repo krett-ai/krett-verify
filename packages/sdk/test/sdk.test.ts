@@ -149,3 +149,57 @@ describe("wrapPlaywright", () => {
     await k.close();
   });
 });
+
+describe("cloud mirror", () => {
+  it("mirrors claim and verdict to the ledger without gating verification, and drain flushes on close", async () => {
+    const {createServer} = await import("node:http");
+    const received: Array<{auth: string | undefined; body: Record<string, unknown>}> = [];
+    const server = createServer((req, res) => {
+      const chunks: Buffer[] = [];
+      req.on("data", (c) => chunks.push(c));
+      req.on("end", () => {
+        received.push({auth: req.headers.authorization, body: JSON.parse(Buffer.concat(chunks).toString())});
+        res.writeHead(201, {"content-type": "application/json"});
+        res.end('{"ok":true}');
+      });
+    });
+    await new Promise<void>((resolve) => server.listen(0, resolve));
+    const address = server.address();
+    if (address === null || typeof address === "string") throw new Error("no port");
+
+    const world = new Map([["greeting", "hello"]]);
+    const k = krett({
+      checkers: [worldChecker(world)],
+      cloud: {apiKey: "krett_live_test", url: `http://127.0.0.1:${address.port}`},
+    });
+    const verdict = await k.verify({
+      agentId: "a1",
+      action: {verb: "write", system: "world", entity: "greeting", expect: {value: "nope"}},
+      consequence: "low",
+    });
+    expect(verdict.status).toBe("failed");
+    await k.close(); // drains the mirror
+
+    expect(received.length).toBe(1);
+    expect(received[0]?.auth).toBe("Bearer krett_live_test");
+    const body = received[0]?.body as {claim: {agentId: string}; verdict: {status: string}};
+    expect(body.claim.agentId).toBe("a1");
+    expect(body.verdict.status).toBe("failed");
+    await new Promise((resolve) => server.close(resolve));
+  });
+
+  it("a dead ledger never changes a verdict or throws", async () => {
+    const world = new Map([["greeting", "hello"]]);
+    const k = krett({
+      checkers: [worldChecker(world)],
+      cloud: {apiKey: "krett_live_test", url: "http://127.0.0.1:59993"},
+    });
+    const verdict = await k.verify({
+      agentId: "a1",
+      action: {verb: "write", system: "world", entity: "greeting", expect: {value: "hello"}},
+      consequence: "low",
+    });
+    expect(verdict.status).toBe("verified");
+    await expect(k.close()).resolves.toBeUndefined();
+  });
+});
