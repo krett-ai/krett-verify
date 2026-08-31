@@ -45,6 +45,14 @@ describe("SqliteRowChecker", () => {
     expect(deleted.status).toBe("verified");
   });
 
+  it("a missing table is definitive: presence claims fail, absence claims verify", async () => {
+    const present = await checker.check(claim("sqlite", "audit_log:id:1", {event: "close"}), {});
+    expect(present.status).toBe("failed");
+    expect(present.reason).toContain("does not exist");
+    const absent = await checker.check(claim("sqlite", "audit_log:id:1", {$exists: false}), {});
+    expect(absent.status).toBe("verified");
+  });
+
   it("a missing database file is unverifiable", async () => {
     const dead = new SqliteRowChecker({path: join(dir, "nope.db")});
     const v = await dead.check(claim("sqlite", "contacts:id:42", {stage: "lost"}), {});

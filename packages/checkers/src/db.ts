@@ -65,6 +65,16 @@ function makeVerdict(
   };
 }
 
+/**
+ * A missing table is a definitive observation, not a read failure: the claimed
+ * row provably does not exist. Subclasses translate their driver's
+ * table-missing error into row-absent so presence claims fail and absence
+ * claims verify. Everything else that breaks a read (missing database file,
+ * bad credentials, network) stays unverifiable — those don't prove anything
+ * about the row.
+ */
+class TableMissingError extends Error {}
+
 /** Shared logic; subclasses provide the independent row reader. */
 abstract class RowStateChecker implements Checker {
   abstract readonly id: string;
@@ -84,16 +94,23 @@ abstract class RowStateChecker implements Checker {
         'entity must be "table:keyColumn:keyValue"');
     }
     let row: Record<string, unknown> | null;
+    let tableMissing = false;
     try {
       row = await this.readRow(parsed);
     } catch (error) {
-      return makeVerdict(claim, this.id, started, "unverifiable", null,
-        `database read failed: ${error instanceof Error ? error.message : String(error)}`);
+      if (error instanceof TableMissingError) {
+        row = null;
+        tableMissing = true;
+      } else {
+        return makeVerdict(claim, this.id, started, "unverifiable", null,
+          `database read failed: ${error instanceof Error ? error.message : String(error)}`);
+      }
     }
-    const problem = compareRow(row, claim.action.expect);
+    let problem = compareRow(row, claim.action.expect);
+    if (problem && tableMissing) problem = `table "${parsed.table}" does not exist, so the row cannot`;
     return problem
-      ? makeVerdict(claim, this.id, started, "failed", {row}, problem)
-      : makeVerdict(claim, this.id, started, "verified", {row});
+      ? makeVerdict(claim, this.id, started, "failed", {row, ...(tableMissing ? {tableMissing} : {})}, problem)
+      : makeVerdict(claim, this.id, started, "verified", {row, ...(tableMissing ? {tableMissing} : {})});
   }
 }
 
@@ -114,9 +131,16 @@ export class SqliteRowChecker extends RowStateChecker {
       const {default: Database} = await import("better-sqlite3");
       this.db = new Database(this.path, {readonly: true, fileMustExist: true});
     }
-    const row = this.db
-      .prepare(`SELECT * FROM "${parsed.table}" WHERE "${parsed.keyColumn}" = ?`)
-      .get(parsed.keyValue) as Record<string, unknown> | undefined;
+    let statement: import("better-sqlite3").Statement;
+    try {
+      statement = this.db.prepare(`SELECT * FROM "${parsed.table}" WHERE "${parsed.keyColumn}" = ?`);
+    } catch (error) {
+      if (error instanceof Error && /no such table/.test(error.message)) {
+        throw new TableMissingError(error.message);
+      }
+      throw error;
+    }
+    const row = statement.get(parsed.keyValue) as Record<string, unknown> | undefined;
     return row ?? null;
   }
 }
@@ -138,9 +162,18 @@ export class PostgresRowChecker extends RowStateChecker {
       const {default: postgres} = await import("postgres");
       this.sql = postgres(this.url, {max: 2, connect_timeout: 5});
     }
-    const rows = await this.sql`
-      SELECT * FROM ${this.sql(parsed.table)}
-      WHERE ${this.sql(parsed.keyColumn)} = ${parsed.keyValue}`;
+    let rows: import("postgres").RowList<import("postgres").Row[]>;
+    try {
+      rows = await this.sql`
+        SELECT * FROM ${this.sql(parsed.table)}
+        WHERE ${this.sql(parsed.keyColumn)} = ${parsed.keyValue}`;
+    } catch (error) {
+      // 42P01: undefined_table
+      if ((error as {code?: string}).code === "42P01") {
+        throw new TableMissingError((error as Error).message);
+      }
+      throw error;
+    }
     return rows.length > 0 ? (rows[0] as Record<string, unknown>) : null;
   }
 

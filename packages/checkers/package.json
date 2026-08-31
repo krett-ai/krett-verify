@@ -1,6 +1,6 @@
 {
   "name": "@krett-ai/checkers",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Krett verifies what your agents actually did.",
   "license": "Apache-2.0",
   "type": "module",
