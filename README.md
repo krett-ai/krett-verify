@@ -77,8 +77,8 @@ Building in public.
 - [x] Phase 1: `@krett-ai/core` — claim/verdict engine
 - [x] Phase 2: `@krett-ai/checkers` — the checker library
 - [x] Phase 3: `@krett-ai/recover` — recovery strategies
-- [x] Phase 4: `@krett-ai/sdk` + `@krett-ai/cli` (npm publish pending)
-- [ ] Phase 5: [SilentBench](https://github.com/krett-ai/silentbench) — measuring the silent-failure rate of agent stacks
+- [x] Phase 4: `@krett-ai/sdk` + `@krett-ai/cli`, published to npm
+- [x] Phase 5: [SilentBench](https://github.com/krett-ai/silentbench) — first full sweep: 5.3% silent failure rate across 430 verifiable runs (25.6% on trapped tasks)
 
 ## License
 
