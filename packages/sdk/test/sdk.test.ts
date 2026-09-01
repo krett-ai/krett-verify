@@ -203,3 +203,31 @@ describe("cloud mirror", () => {
     await expect(k.close()).resolves.toBeUndefined();
   });
 });
+
+describe("fetchPlanePolicy", () => {
+  it("returns the policy and quarantine list, and fails open on anything else", async () => {
+    const {createServer} = await import("node:http");
+    const {fetchPlanePolicy} = await import("../src/cloud.js");
+    const server = createServer((req, res) => {
+      if (req.headers.authorization === "Bearer good") {
+        res.writeHead(200, {"content-type": "application/json"});
+        res.end(JSON.stringify({policy: {levels: {low: {}, medium: {}, high: {}, critical: {}}}, quarantinedAgents: ["rogue"]}));
+      } else {
+        res.writeHead(401);
+        res.end("{}");
+      }
+    });
+    await new Promise<void>((resolve) => server.listen(0, resolve));
+    const address = server.address();
+    if (address === null || typeof address === "string") throw new Error("no port");
+    const url = `http://127.0.0.1:${address.port}`;
+
+    const state = await fetchPlanePolicy({apiKey: "good", url});
+    expect(state?.quarantinedAgents).toEqual(["rogue"]);
+    expect(state?.policy.levels).toBeTruthy();
+
+    expect(await fetchPlanePolicy({apiKey: "bad", url})).toBeNull();
+    expect(await fetchPlanePolicy({apiKey: "x", url: "http://127.0.0.1:59991"})).toBeNull();
+    await new Promise((resolve) => server.close(resolve));
+  });
+});

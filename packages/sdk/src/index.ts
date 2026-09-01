@@ -79,8 +79,8 @@ export function krett(options: KrettOptions): Krett {
   return new Krett(options);
 }
 
-export {DEFAULT_CLOUD_URL} from "./cloud.js";
-export type {CloudOptions} from "./cloud.js";
+export {DEFAULT_CLOUD_URL, fetchPlanePolicy} from "./cloud.js";
+export type {CloudOptions, PlanePolicyState} from "./cloud.js";
 export {wrapMcpClient, wrapPlaywright} from "./wrappers.js";
 export type {ClaimSpec, McpClientLike, McpToolCall, WrapOptions} from "./wrappers.js";
 export {KRETT_VERSION, defaultPolicy} from "@krett-ai/core";

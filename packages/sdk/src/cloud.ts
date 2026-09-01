@@ -4,7 +4,7 @@
  * a dead or slow ledger never changes a verdict, and errors are swallowed by
  * design. close() drains what is still in flight.
  */
-import type {Claim, Verdict} from "@krett-ai/core";
+import type {Claim, Policy, Verdict} from "@krett-ai/core";
 
 export interface CloudOptions {
   apiKey: string;
@@ -13,6 +13,34 @@ export interface CloudOptions {
 }
 
 export const DEFAULT_CLOUD_URL = "https://plane.krett.ai";
+
+export interface PlanePolicyState {
+  policy: Policy;
+  /** Agents a human has not yet released from quarantine on the plane. */
+  quarantinedAgents: string[];
+}
+
+/**
+ * Fetch the workspace policy from the Krett plane. Fail-open by design:
+ * any error returns null and the caller falls back to its local policy —
+ * the plane configures verification, it never gates it.
+ *
+ *   const remote = await fetchPlanePolicy(cloud);
+ *   const k = krett({checkers, policy: remote?.policy, cloud});
+ */
+export async function fetchPlanePolicy(options: CloudOptions): Promise<PlanePolicyState | null> {
+  try {
+    const response = await fetch(`${(options.url ?? DEFAULT_CLOUD_URL).replace(/\/$/, "")}/v1/policy`, {
+      headers: {authorization: `Bearer ${options.apiKey}`},
+    });
+    if (!response.ok) return null;
+    const body = (await response.json()) as {policy?: PlanePolicyState["policy"]; quarantinedAgents?: string[]};
+    if (!body.policy?.levels) return null;
+    return {policy: body.policy, quarantinedAgents: body.quarantinedAgents ?? []};
+  } catch {
+    return null;
+  }
+}
 
 export class CloudMirror {
   private readonly url: string;
